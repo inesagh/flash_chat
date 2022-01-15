@@ -11,12 +11,12 @@ class ChatScreen extends StatefulWidget {
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
+var loggedInUser;
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   FirebaseFirestore? _firestore;
   String text = '';
-  var loggedInUser;
 
   void getCurrentUser() async {
     FirebaseApp _auth = await Firebase.initializeApp();
@@ -38,7 +38,8 @@ class _ChatScreenState extends State<ChatScreen> {
     _firestore = FirebaseFirestore.instance;
     await _firestore?.collection('messages').add({
       'text': text,
-      'sender': loggedInUser.email
+      'sender': loggedInUser.email,
+      'messageTime': DateTime.now()
     });
   }
 
